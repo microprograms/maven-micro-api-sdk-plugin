@@ -1,7 +1,5 @@
 package com.github.microprograms.maven_micro_api_sdk_plugin;
 
-import java.io.File;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -17,7 +15,7 @@ import com.github.microprograms.micro_api_sdk.utils.ApiSdk.UpdateJavaSourceFile.
 @Mojo(name = "update-all-apis", defaultPhase = LifecyclePhase.COMPILE)
 public class UpdateAllApis extends AbstractMojo {
 
-	@Parameter
+	@Parameter(defaultValue = "src/main/resources/api.json")
 	private String configFilePath;
 	@Parameter(defaultValue = "${project.build.sourceDirectory}")
 	private String srcFolder;
@@ -32,20 +30,12 @@ public class UpdateAllApis extends AbstractMojo {
 		getLog().info("micro-api-sdk: update-all-apis");
 		getLog().info("------------------------------------------------------------------------");
 		try {
-			ModuleDefinition moduleDefinition = ApiSdk.build(_getConfigFilePath());
+			ModuleDefinition moduleDefinition = ApiSdk.build(configFilePath);
 			ApiSdk.UpdateJavaSourceFile.updateAllApis(moduleDefinition, srcFolder, _getJavaPackageName(),
 					_getUpdateStrategy());
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
-	}
-
-	private String _getConfigFilePath() {
-		if (StringUtils.isBlank(configFilePath)) {
-			return srcFolder + File.separator + "api.json";
-
-		}
-		return configFilePath;
 	}
 
 	private String _getJavaPackageName() {
