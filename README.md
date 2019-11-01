@@ -1,0 +1,1 @@
+# maven-micro-api-sdk-plugin
