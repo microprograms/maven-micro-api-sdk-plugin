@@ -12,7 +12,7 @@ import com.github.microprograms.micro_api_sdk.model.ModuleDefinition;
 import com.github.microprograms.micro_api_sdk.utils.ApiSdk;
 import com.github.microprograms.micro_api_sdk.utils.ApiSdk.UpdateJavaSourceFile.UpdateStrategy;
 
-@Mojo(name = "update-all-apis", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Mojo(name = "update-all-apis", defaultPhase = LifecyclePhase.COMPILE)
 public class UpdateAllApis extends AbstractMojo {
 
 	@Parameter(defaultValue = "${project.build.sourceDirectory}api.json")
