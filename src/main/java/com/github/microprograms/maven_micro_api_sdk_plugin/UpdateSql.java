@@ -31,7 +31,7 @@ public class UpdateSql extends AbstractMojo {
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		getLog().info("------------------------------------------------------------------------");
-		getLog().info("micro-api-sdk: update-all-sql");
+		getLog().info("micro-api-sdk: update-sql");
 		getLog().info("------------------------------------------------------------------------");
 		try {
 			PlainModelerDefinition modelerDefinition = ModelSdk.build(configFilePath);
