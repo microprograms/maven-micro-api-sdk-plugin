@@ -23,7 +23,7 @@ public class UpdateSql extends AbstractMojo {
 	private String configFilePath;
 	@Parameter
 	private String excludeModelNames;
-	@Parameter(defaultValue = "")
+	@Parameter
 	private String tablePrefix;
 	@Parameter(defaultValue = "src/main/resources")
 	private String dir;
@@ -35,7 +35,7 @@ public class UpdateSql extends AbstractMojo {
 		getLog().info("------------------------------------------------------------------------");
 		try {
 			PlainModelerDefinition modelerDefinition = ModelSdk.build(configFilePath);
-			ModelSdk.Sql.writeToFile(modelerDefinition, _getExcludeModelNames(), tablePrefix, new File(dir));
+			ModelSdk.Sql.writeToFile(modelerDefinition, _getExcludeModelNames(), _getTablePrefix(), new File(dir));
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
@@ -50,6 +50,13 @@ public class UpdateSql extends AbstractMojo {
 			list.add(x);
 		}
 		return list;
+	}
+
+	private String _getTablePrefix() {
+		if (StringUtils.isBlank(tablePrefix)) {
+			return "";
+		}
+		return tablePrefix;
 	}
 
 }
