@@ -13,7 +13,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import com.github.microprograms.micro_api_sdk.model.PlainModelerDefinition;
+import com.github.microprograms.micro_api_sdk.model.PlainModelDefinition;
 import com.github.microprograms.micro_api_sdk.utils.ModelSdk;
 
 @Mojo(name = "update-sql", defaultPhase = LifecyclePhase.COMPILE)
@@ -34,8 +34,8 @@ public class UpdateSql extends AbstractMojo {
 		getLog().info("micro-api-sdk: update-sql");
 		getLog().info("------------------------------------------------------------------------");
 		try {
-			PlainModelerDefinition modelerDefinition = ModelSdk.build(configFilePath);
-			ModelSdk.Sql.writeToFile(modelerDefinition, _getExcludeModelNames(), _getTablePrefix(), new File(dir));
+			PlainModelDefinition modelDefinition = ModelSdk.build(configFilePath);
+			ModelSdk.Sql.writeToFile(modelDefinition, _getExcludeModelNames(), _getTablePrefix(), new File(dir));
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}

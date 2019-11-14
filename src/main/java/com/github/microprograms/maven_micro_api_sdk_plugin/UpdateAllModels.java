@@ -7,7 +7,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import com.github.microprograms.micro_api_sdk.model.PlainModelerDefinition;
+import com.github.microprograms.micro_api_sdk.model.PlainModelDefinition;
 import com.github.microprograms.micro_api_sdk.utils.ModelSdk;
 
 @Mojo(name = "update-all-models", defaultPhase = LifecyclePhase.COMPILE)
@@ -26,8 +26,8 @@ public class UpdateAllModels extends AbstractMojo {
 		getLog().info("micro-api-sdk: update-all-models");
 		getLog().info("------------------------------------------------------------------------");
 		try {
-			PlainModelerDefinition modelerDefinition = ModelSdk.build(configFilePath);
-			ModelSdk.UpdateJavaSourceFile.updateAll(modelerDefinition, srcFolder, _getJavaPackageName());
+			PlainModelDefinition modelDefinition = ModelSdk.build(configFilePath);
+			ModelSdk.UpdateJavaSourceFile.updateAll(modelDefinition, srcFolder, _getJavaPackageName());
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
