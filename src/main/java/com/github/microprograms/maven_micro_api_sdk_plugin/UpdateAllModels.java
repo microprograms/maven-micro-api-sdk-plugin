@@ -14,11 +14,11 @@ import com.github.microprograms.micro_api_sdk.utils.ModelSdk;
 public class UpdateAllModels extends AbstractMojo {
 
 	@Parameter(defaultValue = "src/main/resources/model.json")
-	private String configFilePath;
+	private String modelConfigFilePath;
 	@Parameter(defaultValue = "${project.build.sourceDirectory}")
 	private String srcFolder;
 	@Parameter(defaultValue = "${project.groupId}.${project.artifactId}.model")
-	private String javaPackageName;
+	private String modelJavaPackageName;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -26,7 +26,7 @@ public class UpdateAllModels extends AbstractMojo {
 		getLog().info("micro-api-sdk: update-all-models");
 		getLog().info("------------------------------------------------------------------------");
 		try {
-			PlainModelDefinition modelDefinition = ModelSdk.build(configFilePath);
+			PlainModelDefinition modelDefinition = ModelSdk.build(modelConfigFilePath);
 			ModelSdk.UpdateJavaSourceFile.updateAll(modelDefinition, srcFolder, _getJavaPackageName());
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
@@ -34,7 +34,7 @@ public class UpdateAllModels extends AbstractMojo {
 	}
 
 	private String _getJavaPackageName() {
-		return javaPackageName.replaceAll("-", "_");
+		return modelJavaPackageName.replaceAll("-", "_");
 	}
 
 }

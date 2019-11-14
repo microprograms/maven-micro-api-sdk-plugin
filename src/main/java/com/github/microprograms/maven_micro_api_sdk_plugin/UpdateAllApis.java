@@ -16,13 +16,13 @@ import com.github.microprograms.micro_api_sdk.utils.ApiSdk.UpdateJavaSourceFile.
 public class UpdateAllApis extends AbstractMojo {
 
 	@Parameter(defaultValue = "src/main/resources/api.json")
-	private String configFilePath;
+	private String apiConfigFilePath;
 	@Parameter(defaultValue = "${project.build.sourceDirectory}")
 	private String srcFolder;
 	@Parameter(defaultValue = "${project.groupId}.${project.artifactId}.api")
-	private String javaPackageName;
+	private String apiJavaPackageName;
 	@Parameter
-	private String updateStrategyClassName;
+	private String apiUpdateStrategyClassName;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -30,7 +30,7 @@ public class UpdateAllApis extends AbstractMojo {
 		getLog().info("micro-api-sdk: update-all-apis");
 		getLog().info("------------------------------------------------------------------------");
 		try {
-			ModuleDefinition moduleDefinition = ApiSdk.build(configFilePath);
+			ModuleDefinition moduleDefinition = ApiSdk.build(apiConfigFilePath);
 			ApiSdk.UpdateJavaSourceFile.updateAllApis(moduleDefinition, srcFolder, _getJavaPackageName(),
 					_getUpdateStrategy());
 		} catch (Exception e) {
@@ -39,14 +39,14 @@ public class UpdateAllApis extends AbstractMojo {
 	}
 
 	private String _getJavaPackageName() {
-		return javaPackageName.replaceAll("-", "_");
+		return apiJavaPackageName.replaceAll("-", "_");
 	}
 
 	private UpdateStrategy _getUpdateStrategy() throws Exception {
-		if (StringUtils.isBlank(updateStrategyClassName)) {
+		if (StringUtils.isBlank(apiUpdateStrategyClassName)) {
 			return new ApiSdk.UpdateJavaSourceFile.DefaultUpdateStrategy();
 		}
-		return (UpdateStrategy) Class.forName(updateStrategyClassName).newInstance();
+		return (UpdateStrategy) Class.forName(apiUpdateStrategyClassName).newInstance();
 	}
 
 }
