@@ -7,6 +7,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import com.github.microprograms.maven_micro_api_sdk_plugin.utils.Fn;
 import com.github.microprograms.micro_api_sdk.model.PlainModelDefinition;
 import com.github.microprograms.micro_api_sdk.utils.ModelSdk;
 
@@ -27,14 +28,11 @@ public class UpdateAllModels extends AbstractMojo {
 		getLog().info("------------------------------------------------------------------------");
 		try {
 			PlainModelDefinition modelDefinition = ModelSdk.build(modelConfigFilePath);
-			ModelSdk.UpdateJavaSourceFile.updateAll(modelDefinition, srcFolder, _getJavaPackageName());
+			ModelSdk.UpdateJavaSourceFile.updateAll(modelDefinition, srcFolder,
+					Fn.parseJavaPackageName(modelJavaPackageName));
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
-	}
-
-	private String _getJavaPackageName() {
-		return modelJavaPackageName.replaceAll("-", "_");
 	}
 
 }

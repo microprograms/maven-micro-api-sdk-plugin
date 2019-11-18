@@ -8,6 +8,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import com.github.microprograms.maven_micro_api_sdk_plugin.utils.Fn;
 import com.github.microprograms.micro_api_sdk.model.ModuleDefinition;
 import com.github.microprograms.micro_api_sdk.utils.ApiSdk;
 import com.github.microprograms.micro_api_sdk.utils.ApiSdk.UpdateJavaSourceFile.UpdateStrategy;
@@ -21,6 +22,8 @@ public class UpdateAllApis extends AbstractMojo {
 	private String srcFolder;
 	@Parameter(defaultValue = "${project.groupId}.${project.artifactId}.api")
 	private String apiJavaPackageName;
+	@Parameter(defaultValue = "${project.groupId}.${project.artifactId}.model")
+	private String modelJavaPackageName;
 	@Parameter
 	private String apiUpdateStrategyClassName;
 
@@ -31,15 +34,12 @@ public class UpdateAllApis extends AbstractMojo {
 		getLog().info("------------------------------------------------------------------------");
 		try {
 			ModuleDefinition moduleDefinition = ApiSdk.build(apiConfigFilePath);
-			ApiSdk.UpdateJavaSourceFile.updateAllApis(moduleDefinition, srcFolder, _getJavaPackageName(),
+			ApiSdk.UpdateJavaSourceFile.updateAllApis(moduleDefinition, srcFolder,
+					Fn.parseJavaPackageName(apiJavaPackageName), Fn.parseJavaPackageName(modelJavaPackageName),
 					_getUpdateStrategy());
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
-	}
-
-	private String _getJavaPackageName() {
-		return apiJavaPackageName.replaceAll("-", "_");
 	}
 
 	private UpdateStrategy _getUpdateStrategy() throws Exception {
