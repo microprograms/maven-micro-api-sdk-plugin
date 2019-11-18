@@ -34,9 +34,12 @@ public class UpdateAllApis extends AbstractMojo {
 		getLog().info("------------------------------------------------------------------------");
 		try {
 			ModuleDefinition moduleDefinition = ApiSdk.build(apiConfigFilePath);
-			ApiSdk.UpdateJavaSourceFile.updateAllApis(moduleDefinition, srcFolder,
-					Fn.parseJavaPackageName(apiJavaPackageName), Fn.parseJavaPackageName(modelJavaPackageName),
-					_getUpdateStrategy());
+			String parsedApiJavaPackageName = Fn.parseJavaPackageName(apiJavaPackageName);
+			String parsedModelJavaPackageName = Fn.parseJavaPackageName(modelJavaPackageName);
+			ApiSdk.UpdateJavaSourceFile.updateAllApis(moduleDefinition, srcFolder, parsedApiJavaPackageName,
+					parsedModelJavaPackageName, _getUpdateStrategy());
+			ApiSdk.UpdateJavaSourceFile.updateErrorCode(moduleDefinition, srcFolder, parsedApiJavaPackageName);
+			ApiSdk.UpdateJavaSourceFile.updateAllInnerModels(moduleDefinition, srcFolder, parsedApiJavaPackageName);
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
