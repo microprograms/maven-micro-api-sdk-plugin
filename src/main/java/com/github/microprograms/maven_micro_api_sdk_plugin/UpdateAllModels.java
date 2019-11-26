@@ -18,7 +18,7 @@ public class UpdateAllModels extends AbstractMojo {
 	private String modelConfigFilePath;
 	@Parameter(defaultValue = "${project.build.sourceDirectory}")
 	private String srcFolder;
-	@Parameter(defaultValue = "${project.groupId}.${project.artifactId}.model")
+	@Parameter(defaultValue = "${project.artifactId}.model")
 	private String modelJavaPackageName;
 
 	@Override
