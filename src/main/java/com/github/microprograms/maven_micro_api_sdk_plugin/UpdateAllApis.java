@@ -20,7 +20,7 @@ public class UpdateAllApis extends AbstractMojo {
 	private String apiConfigFilePath;
 	@Parameter(defaultValue = "${project.build.sourceDirectory}")
 	private String srcFolder;
-	@Parameter(defaultValue = "${project.artifactId}")
+	@Parameter(defaultValue = "${project.artifactId}.api")
 	private String apiJavaPackageName;
 	@Parameter(defaultValue = "${project.artifactId}.model")
 	private String modelJavaPackageName;
