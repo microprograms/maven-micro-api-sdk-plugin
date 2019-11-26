@@ -1,5 +1,7 @@
 package com.github.microprograms.maven_micro_api_sdk_plugin;
 
+import java.io.File;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -27,6 +29,11 @@ public class UpdateAllModels extends AbstractMojo {
 		getLog().info("micro-api-sdk: update-all-models");
 		getLog().info("------------------------------------------------------------------------");
 		try {
+			if (!new File(modelConfigFilePath).exists()) {
+				getLog().info(String.format("%s not exists, nothing to update.", modelConfigFilePath));
+				return;
+			}
+
 			PlainModelDefinition modelDefinition = ModelSdk.build(modelConfigFilePath);
 			ModelSdk.UpdateJavaSourceFile.updateAll(modelDefinition, srcFolder,
 					Fn.parseJavaPackageName(modelJavaPackageName));

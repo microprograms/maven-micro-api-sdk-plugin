@@ -34,6 +34,11 @@ public class UpdateSql extends AbstractMojo {
 		getLog().info("micro-api-sdk: update-sql");
 		getLog().info("------------------------------------------------------------------------");
 		try {
+			if (!new File(modelConfigFilePath).exists()) {
+				getLog().info(String.format("%s not exists, nothing to update.", modelConfigFilePath));
+				return;
+			}
+
 			PlainModelDefinition modelDefinition = ModelSdk.build(modelConfigFilePath);
 			ModelSdk.Sql.writeToFile(modelDefinition, _getExcludeModelNames(), _getTablePrefix(), new File(sqlDir));
 		} catch (Exception e) {

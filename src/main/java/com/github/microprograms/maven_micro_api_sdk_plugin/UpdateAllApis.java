@@ -1,5 +1,7 @@
 package com.github.microprograms.maven_micro_api_sdk_plugin;
 
+import java.io.File;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -33,6 +35,11 @@ public class UpdateAllApis extends AbstractMojo {
 		getLog().info("micro-api-sdk: update-all-apis");
 		getLog().info("------------------------------------------------------------------------");
 		try {
+			if (!new File(apiConfigFilePath).exists()) {
+				getLog().info(String.format("%s not exists, nothing to update.", apiConfigFilePath));
+				return;
+			}
+
 			ModuleDefinition moduleDefinition = ApiSdk.build(apiConfigFilePath);
 			String parsedApiJavaPackageName = Fn.parseJavaPackageName(apiJavaPackageName);
 			String parsedModelJavaPackageName = Fn.parseJavaPackageName(modelJavaPackageName);
