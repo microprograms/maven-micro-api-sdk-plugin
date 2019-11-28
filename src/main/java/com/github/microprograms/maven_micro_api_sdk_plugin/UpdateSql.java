@@ -12,12 +12,13 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 
 import com.github.microprograms.maven_micro_api_sdk_plugin.utils.Fn;
 import com.github.microprograms.micro_api_sdk.model.PlainModelDefinition;
 import com.github.microprograms.micro_api_sdk.utils.ModelSdk;
 
-@Mojo(name = "update-sql", defaultPhase = LifecyclePhase.COMPILE)
+@Mojo(name = "update-sql", defaultPhase = LifecyclePhase.COMPILE, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
 public class UpdateSql extends AbstractMojo {
 
 	@Parameter(defaultValue = "src/main/resources/model.json")
