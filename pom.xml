@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.microprograms</groupId>
 	<artifactId>maven-micro-api-sdk-plugin</artifactId>
-	<version>9.0.3</version>
+	<version>9.1.0</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>maven-micro-api-sdk-plugin</name>
@@ -97,7 +95,7 @@
 		<dependency>
 			<groupId>com.github.microprograms</groupId>
 			<artifactId>micro-api-sdk</artifactId>
-			<version>9.0.0</version>
+			<version>9.1.0</version>
 		</dependency>
 	</dependencies>
 </project>
