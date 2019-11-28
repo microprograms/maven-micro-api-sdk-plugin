@@ -13,6 +13,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import com.github.microprograms.maven_micro_api_sdk_plugin.utils.Fn;
 import com.github.microprograms.micro_api_sdk.model.PlainModelDefinition;
 import com.github.microprograms.micro_api_sdk.utils.ModelSdk;
 
@@ -25,6 +26,8 @@ public class UpdateSql extends AbstractMojo {
 	private String sqlExcludeModelNames;
 	@Parameter
 	private String sqlTablePrefix;
+	@Parameter(defaultValue = "${project.artifactId}.model")
+	private String modelJavaPackageName;
 	@Parameter(defaultValue = "src/main/resources")
 	private String sqlDir;
 
@@ -40,7 +43,8 @@ public class UpdateSql extends AbstractMojo {
 			}
 
 			PlainModelDefinition modelDefinition = ModelSdk.build(modelConfigFilePath);
-			ModelSdk.Sql.writeToFile(modelDefinition, _getExcludeModelNames(), _getTablePrefix(), new File(sqlDir));
+			ModelSdk.Sql.writeToFile(modelDefinition, _getExcludeModelNames(), _getTablePrefix(),
+					Fn.parseJavaPackageName(modelJavaPackageName), new File(sqlDir));
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
