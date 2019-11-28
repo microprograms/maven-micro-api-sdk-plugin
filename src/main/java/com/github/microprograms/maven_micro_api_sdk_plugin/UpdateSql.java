@@ -48,12 +48,14 @@ public class UpdateSql extends AbstractMojo {
 				return;
 			}
 
-			// ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+			ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
 			Thread.currentThread().setContextClassLoader(_getClassLoader());
 
 			PlainModelDefinition modelDefinition = ModelSdk.build(modelConfigFilePath);
 			ModelSdk.Sql.writeToFile(modelDefinition, _getExcludeModelNames(), _getTablePrefix(),
 					Fn.parseJavaPackageName(modelJavaPackageName), new File(sqlDir));
+
+			Thread.currentThread().setContextClassLoader(oldClassLoader);
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
