@@ -18,10 +18,9 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
-@Mojo(name = "update-sql", defaultPhase = LifecyclePhase.COMPILE, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
+@Mojo(name = "update-sql", defaultPhase = LifecyclePhase.COMPILE)
 public class UpdateSql extends AbstractMojo {
 
 	@Parameter(defaultValue = "src/main/resources/model.json")
@@ -48,14 +47,11 @@ public class UpdateSql extends AbstractMojo {
 				return;
 			}
 
-			ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-			Thread.currentThread().setContextClassLoader(_getClassLoader());
-
-			PlainModelDefinition modelDefinition = ModelSdk.build(modelConfigFilePath);
-			ModelSdk.Sql.writeToFile(modelDefinition, _getExcludeModelNames(), _getTablePrefix(),
-					Fn.parseJavaPackageName(modelJavaPackageName), new File(sqlDir));
-
-			Thread.currentThread().setContextClassLoader(oldClassLoader);
+			_executeWithReplacedThreadClassLoader(() -> {
+				PlainModelDefinition modelDefinition = ModelSdk.build(modelConfigFilePath);
+				ModelSdk.Sql.writeToFile(modelDefinition, _getExcludeModelNames(), _getTablePrefix(),
+						Fn.parseJavaPackageName(modelJavaPackageName), new File(sqlDir));
+			});
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
 		}
@@ -92,6 +88,19 @@ public class UpdateSql extends AbstractMojo {
 		} catch (Exception e) {
 			throw new MojoExecutionException("Couldn't create a classloader.", e);
 		}
+	}
+
+	private void _executeWithReplacedThreadClassLoader(Executable executable) throws Exception {
+		Thread currentThread = Thread.currentThread();
+		ClassLoader oldClassLoader = currentThread.getContextClassLoader();
+		currentThread.setContextClassLoader(_getClassLoader());
+		executable.execute();
+		currentThread.setContextClassLoader(oldClassLoader);
+	}
+
+	@FunctionalInterface
+	public static interface Executable {
+		void execute() throws Exception;
 	}
 
 }
