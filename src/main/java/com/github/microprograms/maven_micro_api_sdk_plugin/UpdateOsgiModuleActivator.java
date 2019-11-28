@@ -5,7 +5,7 @@ import java.io.File;
 import com.github.microprograms.maven_micro_api_sdk_plugin.utils.Fn;
 import com.github.microprograms.micro_api_sdk.model.ModuleDefinition;
 import com.github.microprograms.micro_api_sdk.utils.ApiSdk;
-import com.github.microprograms.micro_api_sdk.utils.OsgiModule;
+import com.github.microprograms.micro_api_sdk.utils.OsgiModuleSdk;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -40,7 +40,7 @@ public class UpdateOsgiModuleActivator extends AbstractMojo {
 			ModuleDefinition moduleDefinition = ApiSdk.build(apiConfigFilePath);
 			String parsedApiJavaPackageName = Fn.parseJavaPackageName(apiJavaPackageName);
 			String parsedOsgiJavaPackageName = Fn.parseJavaPackageName(osgiJavaPackageName);
-			OsgiModule.UpdateActivatorJavaSourceFile.update(moduleDefinition, srcFolder, parsedOsgiJavaPackageName,
+			OsgiModuleSdk.UpdateActivatorJavaSourceFile.update(moduleDefinition, srcFolder, parsedOsgiJavaPackageName,
 					parsedApiJavaPackageName);
 		} catch (Exception e) {
 			throw new MojoFailureException("", e);
