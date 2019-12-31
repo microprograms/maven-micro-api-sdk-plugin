@@ -4,7 +4,7 @@
 
 	<groupId>com.github.microprograms</groupId>
 	<artifactId>maven-micro-api-sdk-plugin</artifactId>
-	<version>9.20.0</version>
+	<version>9.21.0</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>maven-micro-api-sdk-plugin</name>
@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>com.github.microprograms</groupId>
 			<artifactId>micro-api-sdk</artifactId>
-			<version>9.20.0</version>
+			<version>9.21.0</version>
 		</dependency>
 	</dependencies>
 </project>
